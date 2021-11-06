@@ -1,0 +1,66 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+```
+
+```{r}
+data("instacart") 
+
+instacart = instacart %>% 
+            janitor::clean_names() %>%
+            select(reordered,order_dow,order_hour_of_day,aisle,department) %>% 
+            filter(reordered ==1,order_dow==4)
+              
+  
+```
+
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+The most popular department on Thursday 
+```{r}
+instacart %>% 
+   count(department) %>% 
+   arrange(desc(n)) %>% 
+   mutate(department= fct_reorder(department, n)) %>% 
+   plot_ly(x = ~department, y = ~n, color = ~department, type = "bar", colors = "viridis")
+  
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+The most busy shopping time on Thursday.
+```{r}
+instacart %>% 
+   count(order_hour_of_day) %>% 
+   arrange(desc(n)) %>% 
+   mutate(order_hour_of_day = as.factor(order_hour_of_day),
+          order_hour_of_day = fct_relevel(order_hour_of_day)) %>% 
+  plot_ly(
+    x = ~order_hour_of_day, y = ~n, type = "scatter", mode = "markers",
+ alpha = 0.5)
+```
+
+
+### Chart C
+The time when the meat seafood department receive orders
+```{r}
+instacart %>% 
+  filter(department == "meat seafood") %>% 
+  plot_ly(y = ~order_hour_of_day, color = ~aisle, type = "box", colors = "viridis")
+```
+
