@@ -1,4 +1,4 @@
-name: "Resume"
+name: "Header"
 output_dir: "."
 navbar:
   title: "Home"
