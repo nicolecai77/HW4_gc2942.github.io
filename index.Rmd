@@ -38,7 +38,7 @@ My name is Guiqi Cai. And  I go by Nicole. I currently study at Columbia Univers
 
 ### Link to my work
 
-[Dashboard](dashboard.html)
+[Dashboard](Dashboard.html)
 
 
 
